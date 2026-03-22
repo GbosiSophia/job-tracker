@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Job Application Tracker</h1>
+        <div>
+            <form method="POST" action="/add">
+                <label class="label">Company Name: </label>
+                <input type="text" id="company" name="company" required><br>
+
+                <label class="label">Job Title: </label>
+                <input type="text" id="job" name="job" required><br>
+
+                <label for="status" class="label">Status: </label>
+                <select id="status" name="status" required>
+                    <option value="">--Select Status--</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Offer">Offer</option>
+                </select><br>
+                <label class="label">Date Applied: </label>
+                <input type="date" name="date_applied" required><br>
+                <label class="label">Notes: </label><br>
+                <textarea id="notes" name="notes" rows="4" cols="50" placeholder="Enter your notes here..."></textarea>
+
+        <section>
+            <button>Add new Application</button>
+            <br><button type="button" onclick="window.location.href='/'">View All Applications</button>
+        </section>
+        <!--FLASK MESSAGES SHOULD APPEAR HERE SUCH AS(Adding New Application...)-->
+            </form>
+        </div>
+
+        <form method="GET" action="/">
+            <input type="text" name="search" value="{{ request.args.get('search','')}}" placeholder="Search company or job">
+            <!--This value keeps user input after filtering-->
+
+            <select name="status">
+                <option value="">All Status</option>
+                <option value="Applied"   {% if request.args.get('status') == 'Applied' %} selected {% endif %}>Applied</option>
+                <option value="Interview" {% if request.args.get('status') == 'Interview' %} selected {% endif %}>Interview</option>
+                <option value="Rejected"  {% if request.args.get('status') == 'Rejected' %} selected {% endif %}>Rejected</option>
+                <option value="Offer"     {% if request.args.get('status') == 'Offer' %} selected {% endif %}>Offer</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        <div class = "stats-container">
+            <div class="card">Total Applications: {{ total }}</div>
+            <div class="card">Interviews: {{ interviews }}</div>
+            <div class="card">Offers: {{ offers }}</div>
+            <div class="card">Rejected: {{ rejected }}</div>
+            <div class="card">Success Rate: {{ success_rate}}%</div>
+        </div>
+        <p>
+            Showing {{ applications|length}} result(s)
+        </p>
+        <div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Job Title</th>
+                        <th>Status</th>
+                        <th>Date Applied</th>
+                        <th>Notes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if applications %}
+                        {% for app in applications %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ app[1] }}</td>
+                            <td>{{ app[2] }}</td>
+                            <td>
+                                <span class="status {{ app[3] }}">
+                                    {{ app[3] }}
+                                </span>
+                            </td>
+                            <td>{{ app[4] }}</td>
+                            <td>{{ app[5] }}</td>
+                            <td>
+                                <a href="/edit/{{ app[0] }}">Edit</a>
+                                |
+                                <a href="/delete/{{ app[0] }}" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">No results found for your search/filter 🔍</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div id="chart"></div>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            var data = {{ chart_data | safe }};
+
+            var trace = {
+                x: data.labels,
+                y: data.values,
+                type: "bar"
+            };
+
+            var layout = {
+            title: "Application Status Overview",
+            xaxis: {title: "Status" },
+            yaxis: {title: "Count"}
+            };
+
+            Plotly.newPlot("chart", [trace], layout);
+        </script>
+</body>
+</html>

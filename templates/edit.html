@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Application</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css') }}">
+</head>
+<body>
+<h2>Edit Application</h2>
+
+<form method="POST" action="/update/{{ app[0] }}">
+    <label>Company: </label>
+    <input type="text" name="company" value="{{ app[1] }}"><br>
+
+    <label>Job Title </label>
+    <input type="text" name="job" value="{{ app[2] }}"><br>
+
+    <label>Status: </label>
+    <select name="status" required>
+                <option value="">--Select Status--</option>
+                <option value="Applied" {% if app[3]=="Applied" %}selected{% endif %}>Applied</option>
+                <option value="Interview" {% if app[3]=="Interview" %}selected{% endif %}>Interview</option>
+                <option value="Rejected" {% if app[3]=="Rejected" %}selected{% endif %}>Rejected</option>
+                <option value="Offer" {% if app[3]=="Offer" %}selected{% endif %}>Offer</option>
+            </select><br>
+
+    <label>Date Applied: </label>
+    <input type="date" name="date_applied" value="{{ app[4] }}"><br>
+
+    <label>Notes: </label>
+    <textarea name="notes" >{{ app[5] }}</textarea><br>
+
+    <button type="submit">Update</button>
+</form>
+
+</body>
+</html>

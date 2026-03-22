@@ -1,0 +1,100 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+}
+h1{
+    text-align: center;
+    color: #333;
+}
+form{
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+}
+input, select, textarea {
+    width: 96%;
+    padding: 8px;
+    margin: 5px 0 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049
+}
+table{
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+th{
+    background-color: #333;
+    color: white;
+}
+tr:hover{
+    background-color: #f1f1f1;
+}
+a {
+    text-decoration: none;
+    margin: 0 5px;
+    font-weight: bold;
+}
+a[href*="edit"] {
+    color: blue;
+}
+a[href*="delete"] {
+    color: red;
+}
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+}
+.status.Applied {
+    background: gray;
+}
+.status.Interview {
+    background: orange;
+}
+.status.Rejected {
+    background: red;
+}
+.status.Offer {
+    background: green;
+}
+.stats-container{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px auto;
+    width: 80%
+}
+.card{
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 20%;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
